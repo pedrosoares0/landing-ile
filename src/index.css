@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+
+  /* Custom Cursor Rule for Fine Pointers (Desktop) */
+  @media (pointer: fine) {
+    body, button, a, input, select, textarea, [role="button"] {
+      cursor: none !important;
+    }
+  }
+}
+
+/* Custom Narrow System Scrollbar in System Dark Crimson */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F1E6;
+}
+::-webkit-scrollbar-thumb {
+  background: #761D19;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #990000;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #761D19 #F7F1E6;
+}
+
+/* Custom Luxury Glass & Glow Effects */
+.glass-panel {
+  background: rgba(19, 12, 14, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(87, 67, 40, 0.25);
+}
+
+.glass-panel-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-panel-hover:hover {
+  background: rgba(27, 17, 20, 0.85);
+  border-color: rgba(227, 193, 132, 0.4);
+  box-shadow: 0 12px 32px -8px rgba(102, 18, 32, 0.35);
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #F9E2B3 0%, #E3C184 50%, #B88B42 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-silver-gradient {
+  background: linear-gradient(180deg, #FFFFFF 0%, #D4C9CE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Fine hairline rules */
+.hairline-b {
+  border-bottom: 1px solid rgba(87, 67, 40, 0.18);
+}
+.hairline-t {
+  border-top: 1px solid rgba(87, 67, 40, 0.18);
+}
+
+/* Grain overlay effect */
+.bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+}
