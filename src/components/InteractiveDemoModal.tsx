@@ -312,7 +312,8 @@ export const InteractiveDemoModal = ({
     setLoading(true)
     setErrorMsg(null)
 
-    const planSelectedString = `Plano ${currentPlan.name} (${billingCycle.toUpperCase()}) - R$ ${currentDiscountedPrice}`
+    const discountTag = billingCycle === 'mensal' ? '40% OFF 1º mês' : '25% OFF 6 primeiros meses'
+    const planSelectedString = `[LOTE FUNDADOR] Plano ${currentPlan.name} (${billingCycle.toUpperCase()}) - R$ ${currentDiscountedPrice} (${discountTag}, após R$ ${currentPlan.price}/mês)`
 
     try {
       // 1. Primary Attempt: Save with both landing_plano and plano columns
