@@ -306,46 +306,84 @@ export const InteractiveDemoModal = ({
     }
   }
 
-  // Real Supabase insertion
+  // Real Supabase insertion with robust plan capturing
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setErrorMsg(null)
 
+    const planSelectedString = `Plano ${currentPlan.name} (${billingCycle.toUpperCase()}) - R$ ${currentDiscountedPrice}`
+
     try {
-      const payload: Record<string, string> = {
+      // 1. Primary Attempt: Save with both landing_plano and plano columns
+      const fullPayload: Record<string, string> = {
         landing_nome: formData.nome,
         landing_terreiro: formData.terreiro,
         landing_cidade: formData.cidade || cidadeQuery,
         landing_estado: formData.estado,
         landing_whatsapp: formData.whatsapp,
         landing_email: formData.email,
-        landing_plano: `${currentPlan.name} (${billingCycle.toUpperCase()})`,
+        landing_plano: planSelectedString,
+        plano: planSelectedString,
       }
 
-      const { error } = await supabase.from('landing_acesso_antecipado').insert([payload])
+      let { error } = await supabase.from('landing_acesso_antecipado').insert([fullPayload])
 
       if (error) {
-        console.error('Erro Supabase ao salvar pré-cadastro:', error)
-        if (error.code === 'PGRST205' || error.message?.includes('schema cache')) {
-          const { error: fallbackError } = await supabase.from('landing_acesso_antecipado').insert([
-            {
+        console.warn('Tentativa 1 (com landing_plano + plano) falhou, tentando fallback 1:', error.message)
+        
+        // 2. Fallback 1: Try with landing_plano only
+        const payloadLandingPlano: Record<string, string> = {
+          landing_nome: formData.nome,
+          landing_terreiro: formData.terreiro,
+          landing_cidade: formData.cidade || cidadeQuery,
+          landing_estado: formData.estado,
+          landing_whatsapp: formData.whatsapp,
+          landing_email: formData.email,
+          landing_plano: planSelectedString,
+        }
+        const res2 = await supabase.from('landing_acesso_antecipado').insert([payloadLandingPlano])
+        error = res2.error
+
+        if (error) {
+          console.warn('Tentativa 2 (com landing_plano) falhou, tentando fallback 2:', error.message)
+
+          // 3. Fallback 2: Try with plano only
+          const payloadPlano: Record<string, string> = {
+            landing_nome: formData.nome,
+            landing_terreiro: formData.terreiro,
+            landing_cidade: formData.cidade || cidadeQuery,
+            landing_estado: formData.estado,
+            landing_whatsapp: formData.whatsapp,
+            landing_email: formData.email,
+            plano: planSelectedString,
+          }
+          const res3 = await supabase.from('landing_acesso_antecipado').insert([payloadPlano])
+          error = res3.error
+
+          if (error) {
+            console.warn('Tentativa 3 (sem coluna de plano) salvando dados básicos:', error.message)
+
+            // 4. Fallback 3: Save base user data if column doesn't exist yet
+            const payloadBasic: Record<string, string> = {
               landing_nome: formData.nome,
               landing_terreiro: formData.terreiro,
               landing_cidade: formData.cidade || cidadeQuery,
               landing_estado: formData.estado,
               landing_whatsapp: formData.whatsapp,
               landing_email: formData.email,
-            },
-          ])
-
-          if (fallbackError) {
-            setErrorMsg('A tabela "landing_acesso_antecipado" ainda não foi criada no seu Supabase. Acesse o SQL Editor do Supabase para verificar.')
+            }
+            const res4 = await supabase.from('landing_acesso_antecipado').insert([payloadBasic])
+            if (res4.error) {
+              setErrorMsg(`Erro no Supabase: ${res4.error.message}`)
+            } else {
+              setSubmitted(true)
+            }
           } else {
             setSubmitted(true)
           }
         } else {
-          setErrorMsg(`Erro no Supabase: ${error.message}`)
+          setSubmitted(true)
         }
       } else {
         setSubmitted(true)
