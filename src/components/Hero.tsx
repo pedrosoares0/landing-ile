@@ -211,7 +211,7 @@ export const Hero = ({ onOpenDemo }: HeroProps) => {
           alt="ILÊ Base Background"
           className="absolute inset-0 w-full h-full object-cover object-center filter blur-[1.8px] brightness-[0.98] contrast-[1.06]"
         />
-        
+
         {/* Soft Warm Beige Overlay */}
         <div className="absolute inset-0 bg-[#E8DFD5]/10 mix-blend-color-burn" />
       </div>
@@ -224,10 +224,10 @@ export const Hero = ({ onOpenDemo }: HeroProps) => {
 
       {/* Hero Body Container */}
       <div className="relative z-10 w-full h-full max-w-[1400px] mx-auto px-8 md:px-16 flex flex-col justify-between pt-32 pb-14 pointer-events-none">
-        
+
         {/* Mid-Screen Left & Right Strong Persuasive Meta Copy */}
         <div className="my-auto grid grid-cols-2 justify-between items-center w-full">
-          
+
           {/* Left Persuasive Meta */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -269,7 +269,7 @@ export const Hero = ({ onOpenDemo }: HeroProps) => {
             className="text-center select-none max-w-5xl mx-auto"
           >
             <h1 className="font-serif text-[#F7F4EF] text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.2rem] leading-[0.95] tracking-tight drop-shadow-md">
-              
+
               {/* Line 1: Preservando a Ancestralidade */}
               <div className="flex flex-wrap items-baseline justify-center space-x-3 sm:space-x-4">
                 <span className="font-serif font-normal">Preservando a</span>
@@ -279,7 +279,7 @@ export const Hero = ({ onOpenDemo }: HeroProps) => {
               {/* Line 2: Gestão Sagrada do Seu ilê */}
               <div className="flex flex-wrap items-baseline justify-center space-x-3 sm:space-x-4 mt-1 sm:mt-2">
                 <span className="font-serif font-normal">Gestão Sagrada</span>
-                
+
                 {/* Stacked Small Connectors */}
                 <div className="inline-flex flex-col text-[10px] sm:text-xs md:text-sm font-serif italic text-[#F7F4EF]/75 leading-[0.85] uppercase tracking-widest px-1 select-none self-center">
                   <span>Do</span>
@@ -290,17 +290,6 @@ export const Hero = ({ onOpenDemo }: HeroProps) => {
 
             </h1>
 
-            {/* Hero CTA Button */}
-            <div className="pt-5 pointer-events-auto">
-              <button
-                onClick={onOpenDemo}
-                className="relative inline-flex items-center space-x-3 bg-gradient-to-r from-[#B81D18] via-[#990000] to-[#761D19] text-[#F7F1E6] px-8 py-3.5 rounded-full text-xs sm:text-sm font-sans font-medium tracking-wide border border-white/60 shadow-[0_10px_25px_-6px_rgba(118,29,25,0.5)] hover:shadow-[-8px_14px_32px_-4px_rgba(118,29,25,0.7)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 group cursor-pointer overflow-hidden"
-              >
-                <span className="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/30 via-transparent to-transparent pointer-events-none" />
-                <span className="relative z-10">Garantir Desconto de Fundador</span>
-                <ArrowRight className="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
           </motion.div>
         </div>
 
