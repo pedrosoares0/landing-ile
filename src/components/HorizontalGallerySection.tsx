@@ -19,7 +19,7 @@ const galleryItems: GalleryItem[] = [
   {
     id: 1,
     src: '/img/2.jpg',
-    tag: '',
+    tag: 'CALENDÁRIO & EVENTOS',
     aspect: 'w-[210px] h-[280px]',
     positionStyle: 'self-start mt-[4vh]',
   },
@@ -28,7 +28,7 @@ const galleryItems: GalleryItem[] = [
   {
     id: 2,
     src: '/img/1.jpg',
-    tag: '',
+    tag: 'TRADIÇÃO DIGITAL',
     aspect: 'w-[180px] h-[180px]',
     positionStyle: 'self-end mb-[10vh]',
   },
@@ -37,72 +37,72 @@ const galleryItems: GalleryItem[] = [
   {
     id: 3,
     src: '/img/3.jpg',
-    tag: '',
+    tag: 'PAINEL DO SACERDOTE',
     aspect: 'w-[240px] h-[310px]',
     positionStyle: 'self-start mt-[12vh]',
   },
 
-  // 4. ALEX.JPG — HERO CARD (Large hero with sharp 90° corners and clean quote below)
+  // 4. ALEX.JPG — HERO CARD (Founder Card)
   {
     id: 4,
     src: '/img/alex.jpg',
-    tag: '',
+    tag: 'VIVÊNCIA & PROPÓSITO',
     aspect: 'w-[420px] h-[520px]',
     positionStyle: 'self-start mt-[2vh]',
     quote: 'Alex, o fundador - Praticante e que vive a rotina do ilê na pele. Desenvolveu a plataforma que a própria comunidade necessitava.',
   },
 
-  // 5. Photo 4.jpg (ORGANIZAÇÃO - High top right, Horizontal 3:2 landscape)
+  // 5. Photo 4.jpg (Horizontal landscape)
   {
     id: 5,
     src: '/img/4.jpg',
-    tag: '',
+    tag: 'ORGANIZAÇÃO LITÚRGICA',
     aspect: 'w-[300px] h-[200px]',
     positionStyle: 'self-start mt-[6vh]',
   },
 
-  // 6. Photo 5.jpg (CARTEIRINHA DIGITAL - Low bottom)
+  // 6. Photo 5.jpg (Carteirinha digital)
   {
     id: 6,
     src: '/img/5.jpg',
-    tag: '',
+    tag: 'CARTEIRINHA DIGITAL',
     aspect: 'w-[270px] h-[270px]',
     positionStyle: 'self-end mb-[6vh]',
     topQuote: 'A tradição não se opõe à tecnologia. Ela se fortalece através dela.',
   },
 
-  // 7. Photo 6.jpg (Middle offset)
+  // 7. Photo 6.jpg (Dashboard)
   {
     id: 7,
     src: '/img/63.png',
-    tag: '',
+    tag: 'GESTÃO INTELIGENTE',
     aspect: 'w-[220px] h-[290px]',
     positionStyle: 'self-start mt-[14vh]',
   },
 
-  // 8. Photo 7.jpg (Low bottom)
+  // 8. Photo 7.jpg (Ancestrality)
   {
     id: 8,
     src: '/img/divindades.png',
-    tag: '',
+    tag: 'ANCESTRALIDADE & AXÉ',
     aspect: 'w-[260px] h-[330px]',
     positionStyle: 'self-end mb-[12vh]',
   },
 
-  // 9. Photo 8.jpg (High top)
+  // 9. Photo 8.jpg (Privacy)
   {
     id: 9,
     src: '/img/8.jpg',
-    tag: '',
+    tag: 'SIGILO & PRIVACIDADE',
     aspect: 'w-[190px] h-[190px]',
     positionStyle: 'self-start mt-[4vh]',
   },
 
-  // 10. Photo 9.jpg (Large ending card)
+  // 10. Photo 9.jpg (Ending card)
   {
     id: 10,
     src: '/img/9.jpg',
-    tag: '',
+    tag: 'HARMONIA NO ILÊ',
     aspect: 'w-[360px] h-[450px]',
     positionStyle: 'self-start mt-[8vh]',
     quote: 'A tecnologia a serviço da ancestralidade, da harmonia & da paz do seu Ilê.',
@@ -114,7 +114,7 @@ export const HorizontalGallerySection = () => {
   const trackRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  // GSAP ScrollTrigger Pinned Horizontal Scroll Engine
+  // GSAP ScrollTrigger Pinned Horizontal Scroll Engine with Fluid Scrub & Fade In/Out
   useEffect(() => {
     const ctx = gsap.context(() => {
       const track = trackRef.current
@@ -125,17 +125,40 @@ export const HorizontalGallerySection = () => {
         return track.scrollWidth - window.innerWidth + 160
       }
 
-      gsap.to(track, {
+      // Main Horizontal Track Tween (scrub: 0.4 for smooth, non-stuck fluid scroll)
+      const trackTween = gsap.to(track, {
         x: () => -getScrollAmount(),
         ease: 'none',
         scrollTrigger: {
           trigger: target,
           start: 'top top',
-          end: () => `+=${getScrollAmount()}`,
+          end: () => `+=${getScrollAmount() * 1.15}`,
           pin: true,
-          scrub: 1,
+          scrub: 0.4,
           invalidateOnRefresh: true,
         },
+      })
+
+      // Smooth Fade-In Animation for each gallery card as it moves into viewport
+      const itemCards = track.querySelectorAll('.gallery-card-item')
+      itemCards.forEach((card) => {
+        gsap.fromTo(
+          card,
+          { opacity: 0.15, scale: 0.94, y: 15 },
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: card,
+              containerAnimation: trackTween,
+              start: 'left 98%',
+              end: 'left 60%',
+              scrub: 0.4,
+            },
+          }
+        )
       })
     }, targetRef)
 
@@ -240,7 +263,7 @@ export const HorizontalGallerySection = () => {
           {galleryItems.map((item) => (
             <div
               key={item.id}
-              className={`relative flex flex-col justify-start shrink-0 ${item.positionStyle} transition-transform duration-500 hover:scale-[1.015]`}
+              className={`gallery-card-item relative flex flex-col justify-start shrink-0 ${item.positionStyle} transition-transform duration-500 hover:scale-[1.015]`}
             >
               {/* Quote ABOVE the photo frame if topQuote exists */}
               {item.topQuote && (
@@ -251,19 +274,25 @@ export const HorizontalGallerySection = () => {
                 </div>
               )}
 
-              {/* Micro Tag Above */}
+              {/* Subtle Micro-Tag (Soft Muted Beige/Taupe Tone) */}
               {item.tag && (
-                <div className="mb-1 text-[9px] md:text-[10px] font-sans tracking-[0.25em] uppercase font-semibold text-[#761D19]/70 select-none">
-                  {item.tag}
+                <div className="mb-1.5 text-[9px] md:text-[10px] font-sans font-medium tracking-[0.2em] uppercase text-[#8C7A6B] select-none flex items-center space-x-1.5 opacity-80">
+                  <span className="w-1 h-1 rounded-full bg-[#8C7A6B]/50" />
+                  <span>{item.tag}</span>
                 </div>
               )}
 
-              {/* Photo Frame: SHARP 90° CORNERS (rounded-none, zero border radius) */}
-              <div className={`relative ${item.aspect} overflow-hidden rounded-none shadow-md border border-[#262626]/10 bg-[#262626]/5 group`}>
+              {/* Photo Frame: Smooth Rounded Corners, Glass Border, Stronger Soft Shadow */}
+              <div
+                className={`relative ${item.aspect} overflow-hidden rounded-2xl md:rounded-[1.75rem] border border-white/80 bg-[#262626]/5 shadow-[0_18px_45px_-8px_rgba(0,0,0,0.16),0_6px_20px_-4px_rgba(118,29,25,0.08)] hover:shadow-[0_28px_60px_-10px_rgba(0,0,0,0.24),0_8px_24px_-4px_rgba(118,29,25,0.14)] transition-all duration-500 group`}
+              >
+                {/* Glass Light Reflection / Border Glow Layer */}
+                <div className="absolute inset-0 z-10 pointer-events-none rounded-[inherit] ring-1 ring-inset ring-white/60 bg-gradient-to-b from-white/25 via-transparent to-black/10" />
+
                 <img
                   src={item.src}
                   alt={item.tag}
-                  className="w-full h-full object-cover object-center filter contrast-[1.08] brightness-[0.95] group-hover:scale-105 transition-transform duration-700 ease-out pointer-events-none select-none"
+                  className="w-full h-full object-cover object-center filter contrast-[1.05] brightness-[0.97] group-hover:scale-[1.04] transition-transform duration-700 ease-out pointer-events-none select-none"
                 />
               </div>
 

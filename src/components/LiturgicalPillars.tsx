@@ -153,7 +153,7 @@ export const LiturgicalPillars = ({ onOpenDemo }: LiturgicalPillarsProps) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className={`relative bg-white/60 backdrop-blur-xl border border-white/80 rounded-2xl p-8 sm:p-9 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ${pillar.hoverShadow} hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group overflow-hidden`}
+                className={`relative bg-[#F7F1E6] border border-white/80 rounded-2xl p-8 sm:p-9 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ${pillar.hoverShadow} hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group overflow-hidden`}
               >
                 {/* Subtle Inner Glass Flare */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-transparent to-transparent pointer-events-none rounded-2xl" />

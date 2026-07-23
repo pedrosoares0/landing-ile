@@ -147,14 +147,21 @@ export const Navbar = ({ onOpenDemo }: NavbarProps) => {
               >
                 05. <span className="font-serif italic font-normal">Valores &amp; Fundamentos</span>
               </a>
+              <a
+                href="#pricing"
+                onClick={(e) => handleNavClick(e, '#pricing')}
+                className="block font-serif text-3xl md:text-5xl text-[#F7F1E6] hover:text-[#990000] transition-colors"
+              >
+                06. <span className="font-serif italic font-normal">Planos &amp; Preços</span>
+              </a>
               <button
                 onClick={() => {
                   setMobileMenuOpen(false)
                   onOpenDemo()
                 }}
-                className="block font-serif text-3xl md:text-5xl text-[#990000] hover:text-white transition-colors pt-3"
+                className="block font-serif text-3xl md:text-5xl text-[#990000] hover:text-white transition-colors pt-3 cursor-pointer text-left"
               >
-                06. <span className="font-serif italic font-normal">Garantir Acesso Antecipado ➔</span>
+                07. <span className="font-serif italic font-normal">Garantir Acesso Antecipado ➔</span>
               </button>
             </div>
 

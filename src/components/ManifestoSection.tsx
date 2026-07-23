@@ -188,7 +188,7 @@ export const ManifestoSection = ({ onOpenDemo }: ManifestoSectionProps) => {
 
       {/* Content Container */}
       <div className="relative z-10 max-w-4xl mx-auto text-center space-y-8 select-none flex flex-col items-center">
-        
+
         {/* Clean Section Eyebrow Header */}
         <div className="text-xs md:text-sm font-sans tracking-[0.25em] uppercase font-semibold text-[#761D19]">
           — MANIFESTO ILÊ —
@@ -228,7 +228,7 @@ export const ManifestoSection = ({ onOpenDemo }: ManifestoSectionProps) => {
           <span className="text-[#761D19] font-normal">
             Dirigir uma casa sagrada é um ato de devoção, não uma batalha administrativa.
           </span>{' '}
-          O <span className="italic font-serif font-normal text-[#262626]">ilê</span> foi projetado para eliminar a desorganização e devolver o foco só no axé.
+          O <span className="italic font-serif font-normal text-[#990000]">ilê</span> foi projetado para aprimorar a organização e devolver o foco total no axé.
         </p>
 
         {/* Sleek Glassmorphic Pill Button Positioned Directly Below Manifesto Text */}
