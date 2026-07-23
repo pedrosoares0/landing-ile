@@ -210,15 +210,15 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan, on
                   onSelectPlan(plan.id)
                   onOpenDemo?.()
                 }}
-                className="relative flex flex-col glass-card-apple rounded-[24px] p-4 border border-white/90 shadow-[0_12px_36px_rgba(0,0,0,0.05)] hover:shadow-[0_22px_50px_rgba(0,0,0,0.12)] transition-all duration-300 cursor-pointer overflow-hidden group hover:scale-[1.015]"
+                className="relative flex flex-col bg-white rounded-[26px] p-4 border border-white/90 shadow-[0_12px_40px_rgba(0,0,0,0.05),_0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-[0_22px_60px_rgba(118,29,25,0.12),_0_4px_16px_rgba(0,0,0,0.06)] hover:border-[#761D19]/30 transition-all duration-300 cursor-pointer overflow-hidden group hover:-translate-y-1.5"
               >
                 {/* Header Container */}
                 <div
-                  className={`p-4 rounded-[18px] min-h-[125px] flex flex-col justify-between relative overflow-hidden shrink-0 border ${plan.headerStyle === 'red'
-                    ? 'text-white border-[#761D19]/30 shadow-md bg-[#761D19]'
+                  className={`p-4 rounded-[18px] min-h-[125px] flex flex-col justify-between relative overflow-hidden shrink-0 border transition-shadow duration-300 ${plan.headerStyle === 'red'
+                    ? 'text-white border-[#761D19]/30 bg-[#761D19] shadow-[0_14px_35px_rgba(118,29,25,0.35),_0_4px_12px_rgba(0,0,0,0.1)]'
                     : plan.headerStyle === 'gold'
-                      ? 'text-[#361907] border-black/12 shadow-xs bg-[#D9D7D8]'
-                      : 'bg-[#EDEDED]/95 text-[#262626] border-white/70 shadow-xs'
+                      ? 'text-[#361907] border-black/12 bg-[#D9D7D8] shadow-[0_12px_28px_rgba(0,0,0,0.12),_0_2px_8px_rgba(0,0,0,0.05)]'
+                      : 'bg-[#EDEDED]/95 text-[#262626] border-white/70 shadow-[0_10px_25px_rgba(0,0,0,0.08),_0_2px_6px_rgba(0,0,0,0.04)]'
                     }`}
                 >
                   {/* Webp Header Background Image for Egbé */}
