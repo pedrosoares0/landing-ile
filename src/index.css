@@ -23,10 +23,14 @@
     pointer-events: none;
   }
 
-  /* Custom Cursor Rule for Fine Pointers (Desktop) */
+  /* Custom System Dark Red Rounded Arrow Cursor (#761D19) - Pure Solid, No White Border */
   @media (pointer: fine) {
-    body, button, a, input, select, textarea, [role="button"] {
-      cursor: none !important;
+    html, body, div, span, section, header, footer, main, p, h1, h2, h3, h4, h5, h6 {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M 4 3 L 10.5 19.5 L 14 13.5 L 20 10 L 4 3 Z' fill='%23761D19' stroke='%23761D19' stroke-width='3.2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") 4 3, auto;
+    }
+
+    button, a, input, select, textarea, [role="button"], .cursor-pointer, label {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M 4 3 L 10.5 19.5 L 14 13.5 L 20 10 L 4 3 Z' fill='%23990000' stroke='%23990000' stroke-width='3.2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") 4 3, pointer !important;
     }
   }
 }

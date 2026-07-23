@@ -18,8 +18,8 @@ const galleryItems: GalleryItem[] = [
   // 1. Photo 1.jpg (High top)
   {
     id: 1,
-    src: '/img/1.jpg',
-    tag: 'TRADIÇÃO ORAL, 2024',
+    src: '/img/2.jpg',
+    tag: '',
     aspect: 'w-[210px] h-[280px]',
     positionStyle: 'self-start mt-[4vh]',
   },
@@ -27,8 +27,8 @@ const galleryItems: GalleryItem[] = [
   // 2. Photo 2.jpg (Low bottom)
   {
     id: 2,
-    src: '/img/2.jpg',
-    tag: 'CANTARIA & ATABAQUES',
+    src: '/img/1.jpg',
+    tag: '',
     aspect: 'w-[180px] h-[180px]',
     positionStyle: 'self-end mb-[10vh]',
   },
@@ -37,7 +37,7 @@ const galleryItems: GalleryItem[] = [
   {
     id: 3,
     src: '/img/3.jpg',
-    tag: 'REGISTRO DE MÉDIUNS',
+    tag: '',
     aspect: 'w-[240px] h-[310px]',
     positionStyle: 'self-start mt-[12vh]',
   },
@@ -46,18 +46,18 @@ const galleryItems: GalleryItem[] = [
   {
     id: 4,
     src: '/img/alex.jpg',
-    tag: 'ALEX — FUNDADOR DO ILÊ',
+    tag: '',
     aspect: 'w-[420px] h-[520px]',
     positionStyle: 'self-start mt-[2vh]',
-    quote: 'Criado por Alex — praticante e desenvolvedor que vive a rotina do ilê na pele e construiu a plataforma que a própria comunidade necessitava.',
+    quote: 'Alex, o fundador - Praticante e que vive a rotina do ilê na pele. Desenvolveu a plataforma que a própria comunidade necessitava.',
   },
 
-  // 5. Photo 4.jpg (ORGANIZAÇÃO - High top right)
+  // 5. Photo 4.jpg (ORGANIZAÇÃO - High top right, Horizontal 3:2 landscape)
   {
     id: 5,
     src: '/img/4.jpg',
-    tag: 'ORGANIZAÇÃO, 2024',
-    aspect: 'w-[200px] h-[250px]',
+    tag: '',
+    aspect: 'w-[300px] h-[200px]',
     positionStyle: 'self-start mt-[6vh]',
   },
 
@@ -65,17 +65,17 @@ const galleryItems: GalleryItem[] = [
   {
     id: 6,
     src: '/img/5.jpg',
-    tag: 'CARTEIRINHA DIGITAL',
+    tag: '',
     aspect: 'w-[270px] h-[270px]',
     positionStyle: 'self-end mb-[6vh]',
-    topQuote: 'Kò sí ewé, kò sí axé. Honrar o orí e a caminhada de quem caminha junto.',
+    topQuote: 'A tradição não se opõe à tecnologia. Ela se fortalece através dela.',
   },
 
   // 7. Photo 6.jpg (Middle offset)
   {
     id: 7,
-    src: '/img/6.jpg',
-    tag: 'TRANSPARÊNCIA LITÚRGICA',
+    src: '/img/63.png',
+    tag: '',
     aspect: 'w-[220px] h-[290px]',
     positionStyle: 'self-start mt-[14vh]',
   },
@@ -83,8 +83,8 @@ const galleryItems: GalleryItem[] = [
   // 8. Photo 7.jpg (Low bottom)
   {
     id: 8,
-    src: '/img/7.jpg',
-    tag: 'CALENDÁRIO DE GIRAS',
+    src: '/img/divindades.png',
+    tag: '',
     aspect: 'w-[260px] h-[330px]',
     positionStyle: 'self-end mb-[12vh]',
   },
@@ -93,7 +93,7 @@ const galleryItems: GalleryItem[] = [
   {
     id: 9,
     src: '/img/8.jpg',
-    tag: 'MENSALIDADES',
+    tag: '',
     aspect: 'w-[190px] h-[190px]',
     positionStyle: 'self-start mt-[4vh]',
   },
@@ -102,10 +102,10 @@ const galleryItems: GalleryItem[] = [
   {
     id: 10,
     src: '/img/9.jpg',
-    tag: 'O FUTURO DO SEU ILÊ',
+    tag: '',
     aspect: 'w-[360px] h-[450px]',
     positionStyle: 'self-start mt-[8vh]',
-    quote: 'A tradição não se opõe à tecnologia. Ela se fortalece através dela.',
+    quote: 'A tecnologia a serviço da ancestralidade, da harmonia & da paz do seu Ilê.',
   },
 ]
 
@@ -232,7 +232,7 @@ export const HorizontalGallerySection = () => {
 
       {/* GSAP Horizontal Track Container */}
       <div className="relative w-full h-full flex items-center overflow-hidden z-10">
-        
+
         <div
           ref={trackRef}
           className="flex items-start space-x-16 md:space-x-24 px-12 md:px-24 w-max h-full relative py-8"
@@ -244,17 +244,19 @@ export const HorizontalGallerySection = () => {
             >
               {/* Quote ABOVE the photo frame if topQuote exists */}
               {item.topQuote && (
-                <div className="mb-2 max-w-[270px] select-none">
-                  <p className="font-serif text-sm md:text-base text-[#262626] leading-snug italic">
+                <div className="-mt-20 md:-mt-24 mb-4 max-w-[340px] select-none">
+                  <p className="font-serif text-lg md:text-xl lg:text-2xl text-[#262626] leading-[1.2] italic font-normal">
                     "{item.topQuote}"
                   </p>
                 </div>
               )}
 
-              {/* Micro Tag Above (Tiny uppercase editorial label matching Lando Norris ref) */}
-              <div className="mb-1 text-[9px] md:text-[10px] font-sans tracking-[0.25em] uppercase font-semibold text-[#761D19]/70 select-none">
-                {item.tag}
-              </div>
+              {/* Micro Tag Above */}
+              {item.tag && (
+                <div className="mb-1 text-[9px] md:text-[10px] font-sans tracking-[0.25em] uppercase font-semibold text-[#761D19]/70 select-none">
+                  {item.tag}
+                </div>
+              )}
 
               {/* Photo Frame: SHARP 90° CORNERS (rounded-none, zero border radius) */}
               <div className={`relative ${item.aspect} overflow-hidden rounded-none shadow-md border border-[#262626]/10 bg-[#262626]/5 group`}>
