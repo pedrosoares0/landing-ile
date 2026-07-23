@@ -9,7 +9,7 @@ const PILLARS = [
     description:
       'Criptografia total e sigilo absoluto. Os dados de médiuns, mensalidades e fundamentos pertencem unicamente ao seu terreiro.',
     badge: 'Segurança Total',
-    hoverShadow: 'hover:shadow-[0_22px_50px_-8px_rgba(165,120,80,0.42)]',
+    borderStyle: 'border border-[#A57850]/45 hover:border-[#A57850]/90 shadow-[0_8px_30px_rgba(165,120,80,0.12)] hover:shadow-[0_22px_50px_-8px_rgba(165,120,80,0.38)]',
   },
   {
     imageSrc: '/img/folha.webp',
@@ -17,7 +17,7 @@ const PILLARS = [
     description:
       'Criado com orientação sacerdotal para respeitar integralmente as tradições do Candomblé (todas as nações) e da Umbanda.',
     badge: 'Fundamento Sacro',
-    hoverShadow: 'hover:shadow-[0_22px_50px_-8px_rgba(34,139,34,0.4)]',
+    borderStyle: 'border border-[#2E7D32]/45 hover:border-[#2E7D32]/90 shadow-[0_8px_30px_rgba(46,125,50,0.12)] hover:shadow-[0_22px_50px_-8px_rgba(34,139,34,0.38)]',
   },
   {
     imageSrc: '/img/coracao.webp',
@@ -25,7 +25,7 @@ const PILLARS = [
     description:
       'Interface limpa, moderna e altamente intuitiva. Feito para ser usado por qualquer sacerdote ou médium sem complicação.',
     badge: 'Simplicidade & Axé',
-    hoverShadow: 'hover:shadow-[0_22px_50px_-8px_rgba(235,175,30,0.48)]',
+    borderStyle: 'border border-[#D97706]/45 hover:border-[#D97706]/90 shadow-[0_8px_30px_rgba(217,119,6,0.12)] hover:shadow-[0_22px_50px_-8px_rgba(217,119,6,0.42)]',
   },
 ]
 
@@ -143,17 +143,17 @@ export const LiturgicalPillars = ({ onOpenDemo }: LiturgicalPillarsProps) => {
           </p>
         </div>
 
-        {/* 3 Generous Glassmorphic Cards with Custom Themed Hover Shadows */}
+        {/* 3 Generous Glassmorphic Cards with Theme-Colored Glass Borders */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
           {PILLARS.map((pillar, idx) => {
             return (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className={`relative bg-[#F7F1E6] border border-white/80 rounded-2xl p-8 sm:p-9 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ${pillar.hoverShadow} hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group overflow-hidden`}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98], delay: idx * 0.12 }}
+                className={`relative bg-[#F7F1E6]/90 backdrop-blur-sm rounded-2xl p-8 sm:p-9 ${pillar.borderStyle} hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group overflow-hidden`}
               >
                 {/* Subtle Inner Glass Flare */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-transparent to-transparent pointer-events-none rounded-2xl" />

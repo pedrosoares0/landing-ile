@@ -157,17 +157,17 @@ export const ManifestoSection = ({ onOpenDemo }: ManifestoSectionProps) => {
     <section
       id="manifesto"
       ref={sectionRef}
-      className="light-bg-section relative w-full bg-[#F7F1E6] text-[#262626] py-36 md:py-48 px-6 sm:px-12 flex flex-col items-center justify-center overflow-hidden"
+      className="light-bg-section relative w-full bg-[#F7F1E6] text-[#262626] py-24 xs:py-28 sm:py-36 md:py-48 px-5 sm:px-12 flex flex-col items-center justify-center overflow-hidden"
     >
       {/* 1. Ambient Slow-Breathing Crimson Glow in Background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[400px] sm:h-[550px] bg-[#761D19]/[0.05] rounded-full blur-[160px] pointer-events-none animate-pulse-slow z-0" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] xs:w-[550px] sm:w-[900px] h-[320px] sm:h-[550px] bg-[#761D19]/[0.05] rounded-full blur-[130px] sm:blur-[160px] pointer-events-none animate-pulse-slow z-0" />
 
-      {/* 2. Ultra-Subtle Watermark Logo Emblem in Background (opacity 0.018 for delicate whisper watermark) */}
-      <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none opacity-[0.018] select-none">
+      {/* 2. Ultra-Subtle Watermark Logo Emblem in Background */}
+      <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none opacity-[0.025] sm:opacity-[0.018] select-none">
         <img
           src="/img/logo.webp"
           alt="ilê watermark"
-          className="h-[35vw] max-h-[420px] w-auto object-contain filter grayscale brightness-0"
+          className="h-[65vw] sm:h-[35vw] max-h-[420px] w-auto object-contain filter grayscale brightness-0"
         />
       </div>
 
@@ -187,17 +187,17 @@ export const ManifestoSection = ({ onOpenDemo }: ManifestoSectionProps) => {
       />
 
       {/* Content Container */}
-      <div className="relative z-10 max-w-4xl mx-auto text-center space-y-8 select-none flex flex-col items-center">
+      <div className="relative z-10 max-w-4xl mx-auto text-center space-y-7 xs:space-y-8 sm:space-y-10 select-none flex flex-col items-center">
 
         {/* Clean Section Eyebrow Header */}
-        <div className="text-xs md:text-sm font-sans tracking-[0.25em] uppercase font-semibold text-[#761D19]">
+        <div className="text-xs sm:text-xs md:text-sm font-sans tracking-[0.22em] sm:tracking-[0.25em] uppercase font-semibold text-[#761D19]">
           — MANIFESTO ILÊ —
         </div>
 
         {/* Main Persuasive Headline */}
         <h2
           ref={headlineRef}
-          className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[4.5rem] leading-[1.06] tracking-tight text-[#262626] max-w-4xl mx-auto"
+          className="font-serif text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[4.5rem] leading-[1.08] sm:leading-[1.06] tracking-tight text-[#262626] max-w-4xl mx-auto"
         >
           {/* Line 1: A sua fé não exige caos. */}
           <div className="block">
@@ -222,7 +222,7 @@ export const ManifestoSection = ({ onOpenDemo }: ManifestoSectionProps) => {
         {/* Persuasive Paragraph */}
         <p
           ref={textBodyRef}
-          className="max-w-3xl mx-auto text-base sm:text-lg md:text-xl font-sans font-light text-[#262626]/80 leading-relaxed pt-2"
+          className="max-w-3xl mx-auto text-base xs:text-lg sm:text-xl font-sans font-light text-[#262626]/85 leading-relaxed pt-2 sm:pt-3"
         >
           Grupos e mais grupos de Whatsapp lotados, mensalidades em planilhas e complicação para agendar um evento.{' '}
           <span className="text-[#761D19] font-normal">
@@ -232,10 +232,10 @@ export const ManifestoSection = ({ onOpenDemo }: ManifestoSectionProps) => {
         </p>
 
         {/* Sleek Glassmorphic Pill Button Positioned Directly Below Manifesto Text */}
-        <div ref={buttonRef} className="pt-6">
+        <div ref={buttonRef} className="pt-5 sm:pt-8">
           <button
             onClick={onOpenDemo}
-            className="relative inline-flex items-center space-x-3.5 bg-gradient-to-r from-[#B81D18] via-[#990000] to-[#761D19] text-[#F7F1E6] px-9 py-4 rounded-full text-xs sm:text-sm font-sans font-medium tracking-wide border border-white/60 shadow-[0_10px_24px_-6px_rgba(118,29,25,0.45),inset_0_1px_2px_rgba(255,255,255,0.5)] hover:shadow-[-8px_14px_32px_-4px_rgba(118,29,25,0.65),inset_0_1px_2px_rgba(255,255,255,0.75)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 group cursor-pointer overflow-hidden"
+            className="relative inline-flex items-center space-x-3 sm:space-x-3.5 bg-gradient-to-r from-[#B81D18] via-[#990000] to-[#761D19] text-[#F7F1E6] px-8 py-4 sm:px-9 sm:py-4 rounded-full text-xs xs:text-sm sm:text-sm font-sans font-medium tracking-wide border border-white/60 shadow-[0_10px_24px_-6px_rgba(118,29,25,0.45),inset_0_1px_2px_rgba(255,255,255,0.5)] hover:shadow-[-8px_14px_32px_-4px_rgba(118,29,25,0.65),inset_0_1px_2px_rgba(255,255,255,0.75)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 group cursor-pointer overflow-hidden"
           >
             {/* Inner Glass Flare Radial Layer */}
             <span className="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/30 via-transparent to-transparent pointer-events-none" />

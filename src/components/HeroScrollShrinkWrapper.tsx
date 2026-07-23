@@ -35,7 +35,7 @@ export const HeroScrollShrinkWrapper = ({ onOpenDemo }: Props) => {
   const xLine2 = useTransform(scrollYProgress, [0, 1], ['-35%', '0%'])
 
   return (
-    <div ref={containerRef} className="relative w-full h-[210vh] bg-[#F7F1E6]">
+    <div ref={containerRef} className="relative w-full h-[175vh] sm:h-[210vh] bg-[#F7F1E6]">
       
       {/* Centered 2-Line Scroll-Driven Marquee Ticker behind Hero with solid colors */}
       <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 w-full flex flex-col space-y-4 md:space-y-6 pointer-events-none select-none z-0 overflow-hidden">
@@ -46,10 +46,10 @@ export const HeroScrollShrinkWrapper = ({ onOpenDemo }: Props) => {
             {Array.from({ length: 8 }).flatMap(() => WORDS).map((word, i) => (
               <span
                 key={i}
-                className="font-serif italic text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#990000] tracking-[0.18em] uppercase flex items-center shrink-0"
+                className="font-serif italic text-4xl sm:text-7xl md:text-8xl lg:text-9xl text-[#990000] tracking-[0.18em] uppercase flex items-center shrink-0"
               >
                 <span>{word}</span>
-                <span className="text-[#990000]/40 font-sans not-italic text-2xl md:text-3xl mx-8 md:mx-12">·</span>
+                <span className="text-[#990000]/40 font-sans not-italic text-xl sm:text-2xl md:text-3xl mx-5 sm:mx-8 md:mx-12">·</span>
               </span>
             ))}
           </motion.div>
@@ -61,10 +61,10 @@ export const HeroScrollShrinkWrapper = ({ onOpenDemo }: Props) => {
             {Array.from({ length: 8 }).flatMap(() => WORDS).map((word, i) => (
               <span
                 key={i}
-                className="font-serif italic text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#761D19] tracking-[0.18em] uppercase flex items-center shrink-0"
+                className="font-serif italic text-4xl sm:text-7xl md:text-8xl lg:text-9xl text-[#761D19] tracking-[0.18em] uppercase flex items-center shrink-0"
               >
                 <span>{word}</span>
-                <span className="text-[#761D19]/40 font-sans not-italic text-2xl md:text-3xl mx-8 md:mx-12">·</span>
+                <span className="text-[#761D19]/40 font-sans not-italic text-xl sm:text-2xl md:text-3xl mx-5 sm:mx-8 md:mx-12">·</span>
               </span>
             ))}
           </motion.div>

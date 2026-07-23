@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Check, X, ArrowRight, Shield, Users } from 'lucide-react'
 
 export interface PricingPlan {
   id: string
   name: string
+  categoryTab: string
   price: string
   priceNum: number
   subtitle: string
@@ -22,6 +23,7 @@ export const LANDING_PRICING_PLANS: PricingPlan[] = [
   {
     id: 'gratis',
     name: 'GRÁTIS',
+    categoryTab: 'GRÁTIS',
     price: '0',
     priceNum: 0,
     subtitle: 'Para conhecer.',
@@ -46,6 +48,7 @@ export const LANDING_PRICING_PLANS: PricingPlan[] = [
   {
     id: 'axe',
     name: 'AXÉ',
+    categoryTab: 'BÁSICO',
     price: '79',
     priceNum: 79,
     subtitle: 'Para organizar o terreiro.',
@@ -70,6 +73,7 @@ export const LANDING_PRICING_PLANS: PricingPlan[] = [
   {
     id: 'egbe',
     name: 'EGBÉ',
+    categoryTab: 'CUSTO BENEFÍCIO',
     price: '119',
     priceNum: 119,
     subtitle: 'Para cuidar melhor da sua comunidade.',
@@ -94,6 +98,7 @@ export const LANDING_PRICING_PLANS: PricingPlan[] = [
   {
     id: 'ile',
     name: 'ILÊ+',
+    categoryTab: 'O MELHOR',
     price: '149',
     priceNum: 149,
     subtitle: 'Para liderar com controle.',
@@ -117,6 +122,13 @@ export const LANDING_PRICING_PLANS: PricingPlan[] = [
   },
 ]
 
+const CATEGORY_TABS = [
+  { id: 'gratis', label: 'GRÁTIS' },
+  { id: 'axe', label: 'BÁSICO' },
+  { id: 'egbe', label: 'CUSTO BENEFÍCIO' },
+  { id: 'ile', label: 'O MELHOR' },
+]
+
 interface PricingSectionProps {
   onSelectPlan: (planId: string) => void
   onOpenDemo?: () => void
@@ -124,6 +136,7 @@ interface PricingSectionProps {
 
 export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan, onOpenDemo }) => {
   const [billingCycle, setBillingCycle] = useState<'mensal' | 'anual'>('mensal')
+  const [activeCategory, setActiveCategory] = useState<string>('egbe')
 
   const getDiscountedPrice = (planId: string, priceNum: number) => {
     if (priceNum === 0) return 0
@@ -136,6 +149,8 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan, on
       return Math.round(priceNum * 0.75) // 25% OFF 6 primeiros meses
     }
   }
+
+  const filteredPlans = LANDING_PRICING_PLANS.filter((p) => p.id === activeCategory)
 
   return (
     <section id="pricing" className="py-20 bg-[#F7F1E6] text-[#262626] relative overflow-hidden">
@@ -153,7 +168,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan, on
           </h2>
 
           {/* Ultra-Sophisticated Apple Pill Switcher */}
-          <div className="pt-3 flex flex-col items-center">
+          <div className="pt-3 flex flex-col items-center space-y-4">
             <div className="relative inline-flex items-center bg-white p-1 rounded-full border border-black/8 shadow-[0_10px_30px_rgba(0,0,0,0.08),_0_2px_8px_rgba(0,0,0,0.04)]">
               <button
                 type="button"
@@ -188,19 +203,41 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan, on
               </button>
             </div>
 
-            <div className="text-center mt-2.5">
+            <div className="text-center">
               <p className="inline-block text-xs font-semibold font-sans text-[#761D19] bg-[#761D19]/8 border border-[#761D19]/18 px-4 py-1.5 rounded-full shadow-xs">
                 {billingCycle === 'mensal'
                   ? 'No plano Mensal você garante 40% OFF no 1º mês'
                   : 'No plano Anual você garante 25% OFF nos 6 primeiros meses'}
               </p>
             </div>
+
+            {/* Category Filter Tabs Switcher (Mobile only < lg) */}
+            <div className="flex lg:hidden flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-1 max-w-full overflow-x-auto pb-1">
+              {CATEGORY_TABS.map((tab) => {
+                const isActive = activeCategory === tab.id
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setActiveCategory(tab.id)}
+                    className={`relative px-3.5 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-sans font-bold tracking-wider uppercase transition-all duration-200 cursor-pointer ${
+                      isActive
+                        ? 'text-[#F7F1E6] bg-gradient-to-r from-[#B81D18] via-[#990000] to-[#761D19] shadow-[0_4px_14px_rgba(153,0,0,0.35)] scale-105'
+                        : 'text-[#262626]/75 bg-white/90 hover:bg-white border border-black/10 hover:text-[#761D19]'
+                    }`}
+                  >
+                    <span>{tab.label}</span>
+                  </button>
+                )
+              })}
+            </div>
+
           </div>
         </div>
 
-        {/* 4 Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
-          {LANDING_PRICING_PLANS.map((plan) => {
+        {/* Card Helper Renderer Function */}
+        {(() => {
+          const renderCard = (plan: typeof LANDING_PRICING_PLANS[0]) => {
             const planDiscountedPrice = getDiscountedPrice(plan.id, plan.priceNum)
 
             return (
@@ -212,21 +249,24 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan, on
                 }}
                 className="relative flex flex-col bg-white rounded-[26px] p-4 border border-white/90 shadow-[0_12px_40px_rgba(0,0,0,0.05),_0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-[0_22px_60px_rgba(118,29,25,0.12),_0_4px_16px_rgba(0,0,0,0.06)] hover:border-[#761D19]/30 transition-all duration-300 cursor-pointer overflow-hidden group hover:-translate-y-1.5"
               >
-                {/* Header Container */}
+                {/* Header Container with Restored Theme Drop Shadows & Border Glass on All Cards */}
                 <div
-                  className={`p-4 rounded-[18px] min-h-[125px] flex flex-col justify-between relative overflow-hidden shrink-0 border transition-shadow duration-300 ${plan.headerStyle === 'red'
-                    ? 'text-white border-[#761D19]/30 bg-[#761D19] shadow-[0_14px_35px_rgba(118,29,25,0.35),_0_4px_12px_rgba(0,0,0,0.1)]'
+                  className={`p-4 rounded-[18px] min-h-[125px] flex flex-col justify-between relative overflow-hidden shrink-0 border-2 border-white/80 transition-all duration-300 ${plan.headerStyle === 'red'
+                    ? 'text-white bg-[#761D19] shadow-[0_14px_35px_rgba(118,29,25,0.42),_0_4px_12px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.6)]'
                     : plan.headerStyle === 'gold'
-                      ? 'text-[#361907] border-black/12 bg-[#D9D7D8] shadow-[0_12px_28px_rgba(0,0,0,0.12),_0_2px_8px_rgba(0,0,0,0.05)]'
-                      : 'bg-[#EDEDED]/95 text-[#262626] border-white/70 shadow-[0_10px_25px_rgba(0,0,0,0.08),_0_2px_6px_rgba(0,0,0,0.04)]'
+                      ? 'text-[#361907] bg-[#D9D7D8] shadow-[0_12px_28px_rgba(0,0,0,0.14),_0_2px_8px_rgba(0,0,0,0.06),inset_0_1px_3px_rgba(255,255,255,0.6)]'
+                      : 'bg-[#EDEDED]/95 text-[#262626] shadow-[0_10px_25px_rgba(0,0,0,0.08),_0_2px_6px_rgba(0,0,0,0.04),inset_0_1px_3px_rgba(255,255,255,0.6)]'
                     }`}
                 >
+                  {/* Inner Glass Flare Highlight Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent pointer-events-none rounded-[18px]" />
+                  
                   {/* Webp Header Background Image for Egbé */}
                   {plan.headerStyle === 'red' && (
                     <img
                       src="/img/pricing-egbe.webp"
                       alt="Egbé Pricing"
-                      className="absolute right-0 top-0 bottom-0 h-full w-[48%] object-cover object-right opacity-35 mix-blend-overlay pointer-events-none rounded-r-[18px]"
+                      className="absolute right-0 top-0 bottom-0 h-full w-[48%] object-cover object-right opacity-65 mix-blend-overlay pointer-events-none rounded-r-[18px]"
                     />
                   )}
 
@@ -235,12 +275,12 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan, on
                     <img
                       src="/img/pricing-ile.webp"
                       alt="Ilê+ Pricing"
-                      className="absolute right-0 top-0 bottom-0 h-full w-[48%] object-cover object-right opacity-35 mix-blend-multiply pointer-events-none rounded-r-[18px]"
+                      className="absolute right-0 top-0 bottom-0 h-full w-[48%] object-cover object-right opacity-65 mix-blend-multiply pointer-events-none rounded-r-[18px]"
                     />
                   )}
 
                   {/* Badge */}
-                  <div className="relative z-10">
+                  <div className="relative z-10 flex items-center justify-between">
                     <span
                       className={`inline-block px-3 py-0.5 rounded-full text-[9.5px] font-sans font-black tracking-widest uppercase shadow-xs backdrop-blur-md ${plan.id === 'egbe'
                         ? 'bg-white text-[#990000] border border-white/40'
@@ -386,8 +426,33 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan, on
                 </div>
               </div>
             )
-          })}
-        </div>
+          }
+
+          return (
+            <>
+              {/* MOBILE CARDS (< lg) — Filtered Single Card View with AnimatePresence */}
+              <div className="block lg:hidden">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeCategory + '-' + billingCycle}
+                    initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -12, scale: 0.98 }}
+                    transition={{ duration: 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
+                    className="grid grid-cols-1 max-w-md mx-auto w-full gap-4 items-stretch"
+                  >
+                    {filteredPlans.map(renderCard)}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* DESKTOP CARDS (>= lg) — All 4 Plans Side-By-Side */}
+              <div className="hidden lg:grid grid-cols-4 gap-4 items-stretch">
+                {LANDING_PRICING_PLANS.map(renderCard)}
+              </div>
+            </>
+          )
+        })()}
       </div>
     </section>
   )

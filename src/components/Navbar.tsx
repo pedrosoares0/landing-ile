@@ -52,15 +52,26 @@ export const Navbar = ({ onOpenDemo }: NavbarProps) => {
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
         className="fixed top-0 left-0 right-0 z-50 py-6 md:py-8 bg-transparent mix-blend-difference pointer-events-none"
       >
-        <div className="max-w-[1400px] mx-auto px-8 md:px-16 flex items-center justify-between pointer-events-auto">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-16 flex items-center justify-between pointer-events-auto">
           
-          {/* Left: — MENU */}
+          {/* Left: — MENU (Desktop) / 3 Hamburger Lines (Mobile) */}
           <button
             onClick={() => setMobileMenuOpen(true)}
             className="group flex items-center space-x-2 text-[11px] text-white hover:opacity-80 transition-opacity tracking-[0.25em] font-sans font-medium uppercase cursor-pointer"
+            aria-label="Abrir Menu"
           >
-            <span className="w-4 h-[1.5px] bg-white group-hover:w-6 transition-all duration-300" />
-            <span>MENU</span>
+            {/* 3 clean lines for Mobile */}
+            <div className="flex sm:hidden flex-col justify-between w-5 h-3.5">
+              <span className="w-full h-[1.5px] bg-white rounded-full" />
+              <span className="w-full h-[1.5px] bg-white rounded-full" />
+              <span className="w-full h-[1.5px] bg-white rounded-full" />
+            </div>
+
+            {/* — MENU for Desktop */}
+            <div className="hidden sm:flex items-center space-x-2">
+              <span className="w-4 h-[1.5px] bg-white group-hover:w-6 transition-all duration-300" />
+              <span>MENU</span>
+            </div>
           </button>
 
           {/* Center: Brand Logo logo.webp */}
@@ -76,13 +87,14 @@ export const Navbar = ({ onOpenDemo }: NavbarProps) => {
             />
           </a>
 
-          {/* Right: Clean & Refined Glass Pill Button for Acesso Antecipado */}
+          {/* Right: Clean & Refined Glass Pill Button */}
           <button
             onClick={onOpenDemo}
-            className="group inline-flex items-center space-x-2 px-5 py-2 rounded-full text-xs font-sans font-medium tracking-wide text-white border border-white/60 hover:border-white transition-all duration-300 cursor-pointer"
+            className="group inline-flex items-center space-x-1.5 sm:space-x-2 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs font-sans font-medium tracking-wide text-white border border-white/60 hover:border-white transition-all duration-300 cursor-pointer"
           >
-            <span>Acesso Antecipado</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            <span className="hidden sm:inline">Acesso Antecipado</span>
+            <span className="inline sm:hidden">Garantir</span>
+            <ArrowRight className="w-3 h-3.5 sm:w-3.5 sm:h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </button>
         </div>
       </motion.header>

@@ -114,8 +114,10 @@ export const HorizontalGallerySection = () => {
   const trackRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  // GSAP ScrollTrigger Pinned Horizontal Scroll Engine with Fluid Scrub & Fade In/Out
+  // GSAP ScrollTrigger Pinned Horizontal Scroll Engine (Desktop only >= 1024px)
   useEffect(() => {
+    if (window.innerWidth < 1024) return
+
     const ctx = gsap.context(() => {
       const track = trackRef.current
       const target = targetRef.current
@@ -125,7 +127,7 @@ export const HorizontalGallerySection = () => {
         return track.scrollWidth - window.innerWidth + 160
       }
 
-      // Main Horizontal Track Tween (scrub: 0.4 for smooth, non-stuck fluid scroll)
+      // Main Horizontal Track Tween
       const trackTween = gsap.to(track, {
         x: () => -getScrollAmount(),
         ease: 'none',
@@ -139,7 +141,7 @@ export const HorizontalGallerySection = () => {
         },
       })
 
-      // Smooth Fade-In Animation for each gallery card as it moves into viewport
+      // Smooth Fade-In Animation for each gallery card
       const itemCards = track.querySelectorAll('.gallery-card-item')
       itemCards.forEach((card) => {
         gsap.fromTo(
@@ -235,8 +237,9 @@ export const HorizontalGallerySection = () => {
 
   return (
     <div
+      id="galeria"
       ref={targetRef}
-      className="light-bg-section relative w-full h-screen bg-[#F7F1E6] text-[#262626] overflow-hidden"
+      className="light-bg-section relative w-full bg-[#F7F1E6] text-[#262626] overflow-hidden"
     >
       {/* 1. Tactile macOS Sand Noise Grain Overlay */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.035] mix-blend-multiply">
@@ -253,9 +256,67 @@ export const HorizontalGallerySection = () => {
         className="absolute inset-0 w-full h-full pointer-events-none z-0"
       />
 
-      {/* GSAP Horizontal Track Container */}
-      <div className="relative w-full h-full flex items-center overflow-hidden z-10">
+      {/* ========================================================= */}
+      {/* MOBILE LAYOUT (lg:hidden): Clean Vertical Stacked Gallery */}
+      {/* ========================================================= */}
+      <div className="block lg:hidden relative z-10 py-16 px-6 max-w-xl mx-auto space-y-12">
+        
+        {/* Section Header for Mobile */}
+        <div className="text-center space-y-3 mb-6">
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full text-[10px] font-bold tracking-widest text-[#761D19] bg-[#761D19]/10 border border-[#761D19]/20 uppercase font-sans">
+            <span>GALERIA LITÚRGICA</span>
+          </div>
 
+          <h2 className="font-serif text-3xl xs:text-4xl text-[#262626] leading-tight">
+            A Tradição Vivida na <span className="font-serif italic font-normal text-[#990000]">Prática</span>
+          </h2>
+        </div>
+
+        {/* Vertical Items List */}
+        <div className="flex flex-col space-y-12">
+          {galleryItems.map((item) => (
+            <div key={item.id} className="flex flex-col items-center text-center space-y-3">
+              
+              {/* Top Quote */}
+              {item.topQuote && (
+                <p className="font-serif text-base xs:text-lg text-[#262626] italic font-normal leading-relaxed max-w-sm px-2">
+                  "{item.topQuote}"
+                </p>
+              )}
+
+              {/* Tag */}
+              {item.tag && (
+                <div className="text-[10px] font-sans font-semibold tracking-[0.22em] uppercase text-[#8C7A6B] flex items-center space-x-1.5 opacity-90">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#8C7A6B]/50" />
+                  <span>{item.tag}</span>
+                </div>
+              )}
+
+              {/* Photo Card */}
+              <div className="relative w-full max-w-[340px] aspect-[4/5] overflow-hidden rounded-2xl border border-white/80 bg-[#262626]/5 shadow-[0_16px_40px_-8px_rgba(0,0,0,0.16)]">
+                <div className="absolute inset-0 z-10 pointer-events-none rounded-[inherit] ring-1 ring-inset ring-white/60 bg-gradient-to-b from-white/20 via-transparent to-black/10" />
+                <img
+                  src={item.src}
+                  alt={item.tag}
+                  className="w-full h-full object-cover object-center filter contrast-[1.04] brightness-[0.98]"
+                />
+              </div>
+
+              {/* Quote */}
+              {item.quote && (
+                <p className="font-serif text-sm xs:text-base text-[#262626] italic font-light max-w-sm leading-relaxed px-2">
+                  "{item.quote}"
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* =============================================================== */}
+      {/* DESKTOP LAYOUT (hidden lg:flex): Pinned GSAP Horizontal Track   */}
+      {/* =============================================================== */}
+      <div className="hidden lg:flex relative w-full h-screen items-center overflow-hidden z-10">
         <div
           ref={trackRef}
           className="flex items-start space-x-16 md:space-x-24 px-12 md:px-24 w-max h-full relative py-8"
@@ -308,8 +369,8 @@ export const HorizontalGallerySection = () => {
             </div>
           ))}
         </div>
-
       </div>
+
     </div>
   )
 }

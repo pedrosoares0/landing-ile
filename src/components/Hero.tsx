@@ -91,11 +91,13 @@ export const Hero = ({ onOpenDemo }: HeroProps) => {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
-  // High-performance HTML5 Canvas 2D render loop
+  // High-performance HTML5 Canvas 2D render loop (Desktop only)
   useEffect(() => {
     let animId: number
 
     const render = () => {
+      if (window.innerWidth < 640) return
+
       const canvas = canvasRef.current
       const container = containerRef.current
 
@@ -204,29 +206,40 @@ export const Hero = ({ onOpenDemo }: HeroProps) => {
       id="hero"
       className="relative w-full h-screen min-h-[680px] flex flex-col justify-between overflow-hidden bg-[#F7F1E6]"
     >
-      {/* 1. BASE BACKGROUND LAYER (/img/bghero.webp) */}
+      {/* 1. BASE BACKGROUND LAYER */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        {/* Mobile Background Image (/img/hero-mobile.png) */}
+        <img
+          src="/img/hero-mobile.png"
+          alt="ILÊ Mobile Hero"
+          className="block sm:hidden absolute inset-0 w-full h-full object-cover object-center brightness-[0.98] contrast-[1.05]"
+        />
+
+        {/* Desktop Base Background Image (/img/bghero.webp) */}
         <img
           src="/img/bghero.webp"
           alt="ILÊ Base Background"
-          className="absolute inset-0 w-full h-full object-cover object-center filter blur-[1.8px] brightness-[0.98] contrast-[1.06]"
+          className="hidden sm:block absolute inset-0 w-full h-full object-cover object-center filter blur-[1.8px] brightness-[0.98] contrast-[1.06]"
         />
 
         {/* Soft Warm Beige Overlay */}
         <div className="absolute inset-0 bg-[#E8DFD5]/10 mix-blend-color-burn" />
       </div>
 
-      {/* 2. CANVAS LIQUID TRAIL LAYER */}
+      {/* 2. CANVAS LIQUID TRAIL LAYER (Desktop only) */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 z-1 pointer-events-none w-full h-full"
+        className="hidden sm:block absolute inset-0 z-1 pointer-events-none w-full h-full"
       />
 
-      {/* Hero Body Container */}
-      <div className="relative z-10 w-full h-full max-w-[1400px] mx-auto px-8 md:px-16 flex flex-col justify-between pt-32 pb-14 pointer-events-none">
+      {/* 3. SOFT BLACK GRADIENT OVERLAY AT THE BOTTOM FOR CRISP HIGH-CONTRAST READABILITY */}
+      <div className="absolute bottom-0 left-0 right-0 h-72 sm:h-80 bg-gradient-to-t from-black/85 via-black/40 to-transparent pointer-events-none z-5" />
 
-        {/* Mid-Screen Left & Right Strong Persuasive Meta Copy */}
-        <div className="my-auto grid grid-cols-2 justify-between items-center w-full">
+      {/* Hero Body Container */}
+      <div className="relative z-10 w-full h-full max-w-[1400px] mx-auto px-6 sm:px-8 md:px-16 flex flex-col justify-end sm:justify-between pt-24 sm:pt-32 pb-8 sm:pb-14 pointer-events-none">
+
+        {/* Mid-Screen Left & Right Strong Persuasive Meta Copy (Desktop only) */}
+        <div className="my-auto hidden sm:grid grid-cols-2 justify-between items-center w-full">
 
           {/* Left Persuasive Meta */}
           <motion.div
@@ -260,36 +273,49 @@ export const Hero = ({ onOpenDemo }: HeroProps) => {
 
         </div>
 
-        {/* Lower Screen Main Editorial Headline — Strong Ancestrality & Organization Copy */}
-        <div className="w-full">
+        {/* Lower Screen Main Editorial Headline */}
+        <div className="w-full pb-3 sm:pb-0">
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3 }}
+            transition={{ duration: 0.9, delay: 0.2 }}
             className="text-center select-none max-w-5xl mx-auto"
           >
-            <h1 className="font-serif text-[#F7F4EF] text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.2rem] leading-[0.95] tracking-tight drop-shadow-md">
+            {/* MOBILE HEADLINE ORDER (block sm:hidden) */}
+            <h1 className="block sm:hidden font-serif text-[#F7F4EF] text-[1.85rem] xs:text-[2.25rem] leading-[1.08] tracking-tight drop-shadow-2xl">
+              {/* Line 1: Gestão Sagrada do Seu ilê */}
+              <div className="flex items-baseline justify-center space-x-1.5 xs:space-x-2 whitespace-nowrap">
+                <span className="font-serif font-normal">Gestão Sagrada</span>
+                <span className="font-serif italic font-normal text-xs xs:text-sm text-[#F7F4EF]/85">do</span>
+                <span className="font-serif italic font-normal text-[#F7F4EF]/95">Seu ilê</span>
+              </div>
 
+              {/* Line 2: Preservando a Ancestralidade */}
+              <div className="flex items-baseline justify-center space-x-2 mt-1 whitespace-nowrap">
+                <span className="font-serif font-normal">Preservando a</span>
+                <span className="font-serif italic font-normal text-[#F7F4EF]/95">Ancestralidade</span>
+              </div>
+            </h1>
+
+            {/* DESKTOP HEADLINE ORDER (hidden sm:block) */}
+            <h1 className="hidden sm:block font-serif text-[#F7F4EF] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.2rem] leading-[0.95] tracking-tight drop-shadow-2xl">
               {/* Line 1: Preservando a Ancestralidade */}
-              <div className="flex flex-wrap items-baseline justify-center space-x-3 sm:space-x-4">
+              <div className="flex items-baseline justify-center space-x-4 whitespace-nowrap">
                 <span className="font-serif font-normal">Preservando a</span>
                 <span className="font-serif italic font-normal text-[#F7F4EF]/95">Ancestralidade</span>
               </div>
 
               {/* Line 2: Gestão Sagrada do Seu ilê */}
-              <div className="flex flex-wrap items-baseline justify-center space-x-3 sm:space-x-4 mt-1 sm:mt-2">
+              <div className="flex items-baseline justify-center space-x-4 mt-2 whitespace-nowrap">
                 <span className="font-serif font-normal">Gestão Sagrada</span>
 
-                {/* Stacked Small Connectors */}
-                <div className="inline-flex flex-col text-[10px] sm:text-xs md:text-sm font-serif italic text-[#F7F4EF]/75 leading-[0.85] uppercase tracking-widest px-1 select-none self-center">
+                <span className="inline-flex flex-col text-xs md:text-sm font-serif italic text-[#F7F4EF]/75 leading-[0.85] uppercase tracking-widest px-1 select-none self-center">
                   <span>Do</span>
-                </div>
+                </span>
 
                 <span className="font-serif italic font-normal text-[#F7F4EF]/95">Seu ilê</span>
               </div>
-
             </h1>
-
           </motion.div>
         </div>
 
