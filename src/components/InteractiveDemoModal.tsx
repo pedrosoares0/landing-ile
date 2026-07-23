@@ -181,14 +181,18 @@ export const InteractiveDemoModal = ({
   const [activePlanId, setActivePlanId] = useState<string>(selectedPlanId || 'egbe')
   const [billingCycle, setBillingCycle] = useState<'mensal' | 'anual'>('mensal')
 
-  // Lock body scroll when modal is open for better performance and UX
+  // Lock body scroll and pause/resume Lenis when modal is open
   useEffect(() => {
+    const lenis = (window as any).lenis
     if (isOpen) {
+      if (lenis) lenis.stop()
       document.body.style.overflow = 'hidden'
     } else {
+      if (lenis) lenis.start()
       document.body.style.overflow = ''
     }
     return () => {
+      if (lenis) lenis.start()
       document.body.style.overflow = ''
     }
   }, [isOpen])
