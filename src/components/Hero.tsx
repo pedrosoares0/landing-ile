@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
 
 interface TrailPoint {
   x: number
@@ -288,6 +289,18 @@ export const Hero = ({ onOpenDemo }: HeroProps) => {
               </div>
 
             </h1>
+
+            {/* Hero CTA Button */}
+            <div className="pt-5 pointer-events-auto">
+              <button
+                onClick={onOpenDemo}
+                className="relative inline-flex items-center space-x-3 bg-gradient-to-r from-[#B81D18] via-[#990000] to-[#761D19] text-[#F7F1E6] px-8 py-3.5 rounded-full text-xs sm:text-sm font-sans font-medium tracking-wide border border-white/60 shadow-[0_10px_25px_-6px_rgba(118,29,25,0.5)] hover:shadow-[-8px_14px_32px_-4px_rgba(118,29,25,0.7)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 group cursor-pointer overflow-hidden"
+              >
+                <span className="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/30 via-transparent to-transparent pointer-events-none" />
+                <span className="relative z-10">Garantir Desconto de Fundador</span>
+                <ArrowRight className="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
           </motion.div>
         </div>
 

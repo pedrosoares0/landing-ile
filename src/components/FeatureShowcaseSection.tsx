@@ -44,7 +44,11 @@ const features: FeatureCard[] = [
   },
 ]
 
-export const FeatureShowcaseSection = () => {
+interface FeatureShowcaseSectionProps {
+  onOpenDemo?: () => void
+}
+
+export const FeatureShowcaseSection = ({ onOpenDemo }: FeatureShowcaseSectionProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const oxalaRef = useRef<HTMLImageElement>(null)
@@ -223,6 +227,7 @@ export const FeatureShowcaseSection = () => {
               return (
                 <div
                   key={item.id}
+                  onClick={onOpenDemo}
                   className="group relative bg-[#F7F1E6] border border-white/80 hover:border-white p-5 sm:p-6 rounded-2xl md:rounded-3xl shadow-[0_8px_25px_-6px_rgba(0,0,0,0.06),0_2px_8px_-2px_rgba(118,29,25,0.04)] hover:shadow-[0_16px_35px_-8px_rgba(118,29,25,0.12),0_4px_16px_-4px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-1 cursor-pointer"
                 >
                   {/* Vertical Portrait Preview Tooltip: Left Card shows to the Left, Right Card shows to the Right with Fade In/Out */}

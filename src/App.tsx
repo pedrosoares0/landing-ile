@@ -31,7 +31,7 @@ export function App() {
           <HeroScrollShrinkWrapper onOpenDemo={() => handleOpenDemo()} />
           <ManifestoSection onOpenDemo={() => handleOpenDemo()} />
           <HorizontalGallerySection />
-          <FeatureShowcaseSection />
+          <FeatureShowcaseSection onOpenDemo={() => handleOpenDemo()} />
           <LiturgicalPillars onOpenDemo={() => handleOpenDemo()} />
           <PricingSection
             onSelectPlan={(planId) => setSelectedPlanId(planId)}

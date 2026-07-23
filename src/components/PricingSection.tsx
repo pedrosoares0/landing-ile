@@ -122,7 +122,7 @@ interface PricingSectionProps {
   onOpenDemo?: () => void
 }
 
-export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan }) => {
+export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan, onOpenDemo }) => {
   const [billingCycle, setBillingCycle] = useState<'mensal' | 'anual'>('mensal')
 
   const getDiscountedPrice = (planId: string, priceNum: number) => {
@@ -206,7 +206,10 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan }) 
             return (
               <div
                 key={plan.id}
-                onClick={() => onSelectPlan(plan.id)}
+                onClick={() => {
+                  onSelectPlan(plan.id)
+                  onOpenDemo?.()
+                }}
                 className="relative flex flex-col glass-card-apple rounded-[24px] p-4 border border-white/90 shadow-[0_12px_36px_rgba(0,0,0,0.05)] hover:shadow-[0_22px_50px_rgba(0,0,0,0.12)] transition-all duration-300 cursor-pointer overflow-hidden group hover:scale-[1.015]"
               >
                 {/* Header Container */}
@@ -368,9 +371,14 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan }) 
                   <div className="pt-3">
                     <button
                       type="button"
-                      className="w-full inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-[#B81D18] via-[#990000] to-[#761D19] text-[#F7F1E6] py-2.5 rounded-full text-xs font-semibold border border-white/40 shadow-xs hover:shadow-md transition-all group-hover:scale-[1.01]"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onSelectPlan(plan.id)
+                        onOpenDemo?.()
+                      }}
+                      className="w-full inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-[#B81D18] via-[#990000] to-[#761D19] text-[#F7F1E6] py-2.5 rounded-full text-xs font-semibold border border-white/40 shadow-xs hover:shadow-md transition-all group-hover:scale-[1.01] cursor-pointer"
                     >
-                      <span>Garantir Desconto</span>
+                      <span>Garantir Desconto de Fundador</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>

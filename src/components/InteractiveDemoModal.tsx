@@ -186,7 +186,9 @@ export const InteractiveDemoModal = ({
     const lenis = (window as any).lenis
     if (isOpen) {
       if (lenis) lenis.stop()
-      document.body.style.overflow = 'hidden'
+      requestAnimationFrame(() => {
+        document.body.style.overflow = 'hidden'
+      })
     } else {
       if (lenis) lenis.start()
       document.body.style.overflow = ''
@@ -426,17 +428,18 @@ export const InteractiveDemoModal = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
             onClick={onClose}
-            className="fixed inset-0 bg-[#0a0708]/82 backdrop-blur-xl"
+            className="fixed inset-0 bg-[#0a0708]/80 backdrop-blur-md transform-gpu"
           />
 
-          {/* Modal Container: Spacious Outer Height */}
+          {/* Modal Container: High Performance GPU Spring */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.97, y: 15 }}
+            initial={{ opacity: 0, scale: 0.98, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.97, y: 15 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="relative z-10 w-full max-w-[1520px] max-h-[92vh] bg-[#F4F4F4] text-[#262626] rounded-[30px] border border-black/10 shadow-[0_25px_85px_rgba(0,0,0,0.35)] overflow-hidden flex flex-col my-auto"
+            exit={{ opacity: 0, scale: 0.98, y: 10 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="relative z-10 w-full max-w-[1520px] max-h-[92vh] bg-[#F4F4F4] text-[#262626] rounded-[30px] border border-black/10 shadow-[0_25px_85px_rgba(0,0,0,0.35)] overflow-hidden flex flex-col my-auto transform-gpu will-change-transform"
           >
             {/* Apple Floating Close Button */}
             <button
