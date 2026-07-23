@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X as CloseIcon, CheckCircle, ArrowRight, MapPin, Loader2, AlertCircle, Check, X, Shield, Users } from 'lucide-react'
+import { X as CloseIcon, CheckCircle, ArrowRight, MapPin, Loader2, AlertCircle, Check, X, Shield, Users, MessageSquare, Star, CheckCircle2 } from 'lucide-react'
 import { filterCities, ESTADOS_UF, CityItem } from '../data/brazilianCities'
 import { supabase } from '../lib/supabase'
 
@@ -180,6 +180,15 @@ export const InteractiveDemoModal = ({
 }: InteractiveDemoModalProps) => {
   const [activePlanId, setActivePlanId] = useState<string>(selectedPlanId || 'egbe')
   const [billingCycle, setBillingCycle] = useState<'mensal' | 'anual'>('mensal')
+
+  // Floating feedback popover states (Classic 1-5 Star Rating)
+  const [feedbackOpen, setFeedbackOpen] = useState(false)
+  const [feedbackRating, setFeedbackRating] = useState<number>(5)
+  const [hoverRating, setHoverRating] = useState<number | null>(null)
+  const [feedbackText, setFeedbackText] = useState('')
+  const [feedbackLoading, setFeedbackLoading] = useState(false)
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false)
+  const [feedbackError, setFeedbackError] = useState<string | null>(null)
 
   // Lock body scroll and pause/resume Lenis when modal is open
   useEffect(() => {
@@ -400,6 +409,50 @@ export const InteractiveDemoModal = ({
       setErrorMsg('Erro de conexão ao enviar pré-cadastro. Tente novamente.')
     } finally {
       setLoading(false)
+    }
+  }
+
+  // Handle Send Anonymous Feedback / Suggestions
+  const handleSendFeedback = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!feedbackText.trim()) return
+
+    setFeedbackLoading(true)
+    setFeedbackError(null)
+
+    try {
+      // 1. Primary insert to landing_sugestoes
+      const { error } = await supabase.from('landing_sugestoes').insert([
+        {
+          rating: feedbackRating,
+          sugestao: feedbackText.trim(),
+        },
+      ])
+
+      if (error) {
+        console.warn('Erro ao salvar em landing_sugestoes, tentando fallback sugestoes:', error.message)
+        // 2. Fallback insert to sugestoes
+        const { error: fallbackErr } = await supabase.from('sugestoes').insert([
+          {
+            rating: feedbackRating,
+            sugestao: feedbackText.trim(),
+          },
+        ])
+
+        if (fallbackErr) {
+          console.error('Erro no fallback Supabase:', fallbackErr)
+          setFeedbackError('Lembre de criar a tabela "landing_sugestoes" no seu Supabase.')
+        } else {
+          setFeedbackSubmitted(true)
+        }
+      } else {
+        setFeedbackSubmitted(true)
+      }
+    } catch (err) {
+      console.error('Erro de comunicação ao enviar sugestão:', err)
+      setFeedbackError('Erro de conexão. Tente novamente.')
+    } finally {
+      setFeedbackLoading(false)
     }
   }
 
@@ -678,7 +731,7 @@ export const InteractiveDemoModal = ({
                           </div>
                         </div>
 
-                        {/* Action Button: Requested CTA text */}
+                        {/* Action Button: Requested CTA text & loading message */}
                         <div className="pt-1.5">
                           <button
                             type="submit"
@@ -689,7 +742,7 @@ export const InteractiveDemoModal = ({
                             {loading ? (
                               <>
                                 <Loader2 className="w-4 h-4 animate-spin text-[#F7F1E6]" />
-                                <span className="relative z-10">Salvando no Banco...</span>
+                                <span className="relative z-10">Garantindo o seu desconto...</span>
                               </>
                             ) : (
                               <>
@@ -1020,6 +1073,173 @@ export const InteractiveDemoModal = ({
               )}
 
             </div>
+
+            {/* ==================================================== */}
+            {/* FLOATING ANONYMOUS FEEDBACK WIDGET (BOTTOM RIGHT)     */}
+            {/* ==================================================== */}
+            <div className="absolute bottom-3.5 right-4 z-40 flex flex-col items-end pointer-events-auto">
+              
+              {/* Feedback Popover Box */}
+              <AnimatePresence>
+                {feedbackOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                    transition={{ type: 'spring', stiffness: 450, damping: 30 }}
+                    className="mb-3 w-[310px] sm:w-[340px] bg-white rounded-2xl p-4 border border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.18)] text-[#262626] font-sans relative overflow-hidden"
+                  >
+                    {/* Header */}
+                    <div className="border-b border-black/8 pb-2 mb-2.5">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-xs font-bold text-[#262626]">
+                          Sua opinião é fundamental
+                        </h4>
+                        <button
+                          type="button"
+                          onClick={() => setFeedbackOpen(false)}
+                          className="text-[#262626]/50 hover:text-[#761D19] p-1 rounded-full hover:bg-black/5 transition-colors cursor-pointer"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+
+                      {/* Highlighted Anonymous Badge directly under title */}
+                      <div className="mt-1">
+                        <span className="inline-flex items-center space-x-1 text-[9.5px] font-bold text-[#761D19] bg-[#761D19]/8 border border-[#761D19]/18 px-2 py-0.5 rounded-full">
+                          <span>🔒 Sugestão 100% Anônima • Sem cadastro</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    {!feedbackSubmitted ? (
+                      <form onSubmit={handleSendFeedback} className="space-y-3 text-xs">
+                        
+                        {/* Classic 1-5 Star Rating Selector */}
+                        <div>
+                          <label className="block text-[10.5px] font-semibold text-[#262626]/85 mb-1">
+                            O que achou da ideia e dos preços? *
+                          </label>
+                          <div className="flex items-center space-x-1.5 py-0.5">
+                            {[1, 2, 3, 4, 5].map((star) => {
+                              const active = star <= (hoverRating ?? feedbackRating)
+                              return (
+                                <button
+                                  key={star}
+                                  type="button"
+                                  onMouseEnter={() => setHoverRating(star)}
+                                  onMouseLeave={() => setHoverRating(null)}
+                                  onClick={() => setFeedbackRating(star)}
+                                  className="p-1 transition-transform hover:scale-125 focus:outline-none cursor-pointer"
+                                >
+                                  <Star
+                                    className={`w-5 h-5 transition-colors ${
+                                      active
+                                        ? 'text-[#D4AF37] fill-[#D4AF37] drop-shadow-xs'
+                                        : 'text-slate-300 fill-slate-100'
+                                    }`}
+                                  />
+                                </button>
+                              )
+                            })}
+                          </div>
+                          
+                          {/* Rating Score Legend */}
+                          <span className="text-[9.5px] font-bold text-[#761D19] mt-0.5 block">
+                            {feedbackRating === 5 && '⭐⭐⭐⭐⭐ — Proposta incrível!'}
+                            {feedbackRating === 4 && '⭐⭐⭐⭐ — Muito boa ideia!'}
+                            {feedbackRating === 3 && '⭐⭐⭐ — Razoável.'}
+                            {feedbackRating === 2 && '⭐⭐ — Pode melhorar.'}
+                            {feedbackRating === 1 && '⭐ — Não gostei.'}
+                          </span>
+                        </div>
+
+                        {/* Feedback Textarea */}
+                        <div>
+                          <label className="block text-[10.5px] font-semibold text-[#262626]/85 mb-1">
+                            Sua opinião ou sugestão livre *
+                          </label>
+                          <textarea
+                            required
+                            rows={3}
+                            maxLength={500}
+                            value={feedbackText}
+                            onChange={(e) => setFeedbackText(e.target.value)}
+                            placeholder="Conte pra gente sem cadastro: o que achou dos valores, da proposta ou quais recursos você gostaria de ter no ilê?"
+                            className="w-full p-2.5 rounded-xl bg-[#F5F3F3] border border-black/8 text-[#262626] text-xs font-sans placeholder-[#262626]/40 shadow-[inner_0_1.5px_3px_rgba(0,0,0,0.04)] focus:bg-white focus:outline-none focus:border-[#761D19] focus:ring-2 focus:ring-[#761D19]/15 transition-all resize-none"
+                          />
+                        </div>
+
+                        {/* Error Message */}
+                        {feedbackError && (
+                          <p className="text-[10px] text-red-600 bg-red-50 p-1.5 rounded-lg border border-red-200">
+                            {feedbackError}
+                          </p>
+                        )}
+
+                        {/* Submit Button (Clean Text, No Arrow or Icons) */}
+                        <button
+                          type="submit"
+                          disabled={feedbackLoading || !feedbackText.trim()}
+                          className="w-full inline-flex items-center justify-center bg-gradient-to-r from-[#B81D18] via-[#990000] to-[#761D19] text-[#F7F1E6] py-2 rounded-xl text-xs font-semibold shadow-md hover:scale-[1.005] active:scale-[0.995] disabled:opacity-50 transition-all cursor-pointer"
+                        >
+                          {feedbackLoading ? (
+                            <>
+                              <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" />
+                              <span>Enviando...</span>
+                            </>
+                          ) : (
+                            <span>Enviar Sugestão</span>
+                          )}
+                        </button>
+
+                      </form>
+                    ) : (
+                      /* Success State inside popover */
+                      <div className="text-center py-2.5 space-y-2">
+                        <div className="w-9 h-9 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
+                          <CheckCircle2 className="w-5 h-5 stroke-[2.5]" />
+                        </div>
+                        <h5 className="font-serif text-base font-bold text-[#262626]">
+                          Sugestão Enviada!
+                        </h5>
+                        <p className="text-[10.5px] text-[#262626]/75 font-sans leading-relaxed">
+                          Que o axé abençoe seus passos. Sua opinião é muito valiosa para construirmos o <strong>ilê</strong> juntos.
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFeedbackSubmitted(false)
+                            setFeedbackText('')
+                            setFeedbackOpen(false)
+                          }}
+                          className="mt-1 text-[10px] font-bold text-[#761D19] hover:underline cursor-pointer"
+                        >
+                          Fechar
+                        </button>
+                      </div>
+                    )}
+
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Floating Trigger Button: Small Circle with Chat Icon Only */}
+              <button
+                type="button"
+                onClick={() => setFeedbackOpen((prev) => !prev)}
+                className="relative flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-r from-[#761D19] via-[#990000] to-[#B81D18] text-[#F7F1E6] shadow-[0_8px_25px_rgba(118,29,25,0.45)] border border-white/40 hover:scale-110 active:scale-90 transition-all duration-200 cursor-pointer"
+                title="Deixar opinião ou sugestão anônima"
+              >
+                <MessageSquare className="w-4 h-4 text-[#F3E5AB]" />
+                <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F3E5AB] opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#F3E5AB]" />
+                </span>
+              </button>
+
+            </div>
+
           </motion.div>
         </div>
       )}
