@@ -10,6 +10,7 @@ import { LiturgicalPillars } from './components/LiturgicalPillars'
 import { PricingSection } from './components/PricingSection'
 import { InteractiveDemoModal } from './components/InteractiveDemoModal'
 import { Footer } from './components/Footer'
+import { WhatsappButton } from './components/WhatsappButton'
 
 export function App() {
   const [demoModalOpen, setDemoModalOpen] = useState(false)
@@ -44,6 +45,7 @@ export function App() {
           onClose={() => setDemoModalOpen(false)}
           selectedPlanId={selectedPlanId}
         />
+        <WhatsappButton />
       </div>
     </SmoothScroll>
   )

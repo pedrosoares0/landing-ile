@@ -206,9 +206,19 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan, on
             <div className="text-center">
               <p className="inline-block text-xs font-semibold font-sans text-[#761D19] bg-[#761D19]/8 border border-[#761D19]/18 px-4 py-1.5 rounded-full shadow-xs">
                 {billingCycle === 'mensal'
-                  ? 'No plano Mensal você garante 40% OFF no 1º mês'
-                  : 'No plano Anual você garante 25% OFF nos 6 primeiros meses'}
+                  ? 'No plano Mensal você garante 1 Mês Grátis + 60% OFF nos 2 meses seguintes'
+                  : 'No plano Anual você garante 1 Mês Grátis + 25% OFF nos 6 meses seguintes'}
               </p>
+            </div>
+
+            {/* Highlights Banner: Migração & Suporte Humano */}
+            <div className="flex items-center justify-center gap-3 md:gap-6 flex-wrap text-xs font-sans text-[#761D19]">
+              <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#761D19]/6 border border-[#761D19]/15 shadow-xs font-semibold">
+                <span>📦 Migração de Dados 100% Gratuita</span>
+              </span>
+              <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#761D19]/6 border border-[#761D19]/15 shadow-xs font-semibold">
+                <span>💬 Suporte Humano via WhatsApp</span>
+              </span>
             </div>
 
             {/* Category Filter Tabs Switcher (Mobile only < lg) */}
@@ -297,29 +307,30 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectPlan, on
 
                   {/* Price */}
                   <div className="relative z-10">
-                    <div className="flex items-baseline space-x-1 mt-1.5">
-                      <span className={`text-xs font-bold opacity-90 ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>R$</span>
-                      <span className={`text-3xl font-extrabold tracking-tight ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>
-                        {planDiscountedPrice}
-                      </span>
-                      {plan.priceNum > 0 && (
-                        <span className={`text-xs opacity-60 line-through ml-1 font-medium ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>
-                          R${plan.price}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Small Post-Discount Subtext Explanation */}
                     {plan.priceNum > 0 ? (
-                      <p className={`text-[9.5px] font-sans font-medium opacity-85 mt-0.5 leading-tight ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>
-                        {billingCycle === 'mensal'
-                          ? `no 1º mês, após R$ ${plan.price}/mês`
-                          : `nos 6 primeiros meses, após R$ ${plan.price}/mês`}
-                      </p>
+                      <>
+                        <div className="flex items-baseline space-x-1 mt-1.5">
+                          <span className={`text-3xl font-extrabold tracking-tight ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>
+                            {billingCycle === 'mensal' ? '60% OFF' : '25% OFF'}
+                          </span>
+                        </div>
+                        <p className={`text-[9.5px] font-sans font-medium opacity-85 mt-0.5 leading-tight ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>
+                          {billingCycle === 'mensal'
+                            ? '1º Mês Grátis + 60% OFF nos 2 meses seguintes'
+                            : '1º Mês Grátis + 25% OFF nos 6 meses seguintes'}
+                        </p>
+                      </>
                     ) : (
-                      <p className="text-[9.5px] font-sans font-medium opacity-75 mt-0.5 leading-tight">
-                        Grátis para sempre
-                      </p>
+                      <>
+                        <div className="flex items-baseline space-x-1 mt-1.5">
+                          <span className={`text-3xl font-extrabold tracking-tight ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>
+                            GRÁTIS
+                          </span>
+                        </div>
+                        <p className="text-[9.5px] font-sans font-medium opacity-75 mt-0.5 leading-tight">
+                          para sempre
+                        </p>
+                      </>
                     )}
                   </div>
                 </div>

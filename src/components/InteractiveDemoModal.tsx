@@ -327,8 +327,8 @@ export const InteractiveDemoModal = ({
     setLoading(true)
     setErrorMsg(null)
 
-    const discountTag = billingCycle === 'mensal' ? '40% OFF 1º mês' : '25% OFF 6 primeiros meses'
-    const planSelectedString = `[LOTE FUNDADOR] Plano ${currentPlan.name} (${billingCycle.toUpperCase()}) - R$ ${currentDiscountedPrice} (${discountTag}, após R$ ${currentPlan.price}/mês)`
+    const discountTag = billingCycle === 'mensal' ? '1 Mês Grátis + 60% OFF nos 2 meses seguintes' : '1 Mês Grátis + 25% OFF nos 6 meses seguintes'
+    const planSelectedString = `[LOTE FUNDADOR] Plano ${currentPlan.name} (${billingCycle.toUpperCase()}) - ${discountTag}`
 
     try {
       // 1. Primary Attempt: Save with both landing_plano and plano columns
@@ -538,7 +538,7 @@ export const InteractiveDemoModal = ({
 
                         {/* Reassurance Copy: Pay Nothing Now */}
                         <p className="font-sans text-[11px] text-[#262626]/75 font-normal leading-relaxed">
-                          <strong className="font-semibold text-[#761D19]">Você não paga nada agora.</strong> Garanta seu desconto exclusivo para o lançamento do app.
+                          <strong className="font-semibold text-[#761D19]">Você não paga nada agora.</strong> Garanta seu desconto exclusivo. <strong className="font-semibold text-[#761D19]">Migração de dados 100% gratuita</strong> e <strong className="font-semibold text-[#761D19]">suporte humano via WhatsApp</strong> inclusos!
                         </p>
                       </div>
 
@@ -553,28 +553,16 @@ export const InteractiveDemoModal = ({
 
                         <div className="flex items-center space-x-2">
                           {currentPlan.priceNum > 0 ? (
-                            <>
-                              <div className="flex flex-col text-right leading-none">
-                                <span className="text-xs font-extrabold text-[#761D19]">
-                                  R$ {currentDiscountedPrice} <span className="text-[9px] font-bold text-[#761D19]">{billingCycle === 'mensal' ? 'no 1º mês' : 'nos 6 primeiros meses'}</span>
-                                </span>
-                                <span className="text-[9px] text-[#262626]/60 font-medium mt-0.5">
-                                  após R$ {currentPlan.price}/mês
-                                </span>
-                              </div>
-
-                              {/* Original Strikethrough Price ABOVE Discount Tag */}
-                              <div className="flex flex-col items-end justify-center space-y-0.5">
-                                <span className="text-[10px] text-[#262626]/45 line-through font-semibold leading-none">
-                                  R$ {currentPlan.price}
-                                </span>
-                                <span className="text-[9px] font-bold text-[#761D19] bg-[#761D19]/12 px-1.5 py-0.5 rounded-full border border-[#761D19]/20 leading-none">
-                                  {billingCycle === 'mensal' ? '-40% OFF' : '-25% OFF'}
-                                </span>
-                              </div>
-                            </>
+                            <div className="flex flex-col text-right leading-none">
+                              <span className="text-xs font-extrabold text-[#761D19]">
+                                {billingCycle === 'mensal' ? '1 Mês Grátis + 60% OFF' : '1 Mês Grátis + 25% OFF'}
+                              </span>
+                              <span className="text-[9px] text-[#262626]/60 font-medium mt-0.5">
+                                {billingCycle === 'mensal' ? 'desconto nos 2 meses seguintes' : 'desconto nos 6 meses seguintes'}
+                              </span>
+                            </div>
                           ) : (
-                            <span className="text-xs font-extrabold text-emerald-700">R$ 0/mês</span>
+                            <span className="text-xs font-extrabold text-emerald-700">Grátis</span>
                           )}
                         </div>
                       </div>
@@ -809,8 +797,8 @@ export const InteractiveDemoModal = ({
                       <div className="text-center mt-1.5">
                         <p className="inline-block text-[11px] font-semibold font-sans text-[#761D19] bg-[#761D19]/8 border border-[#761D19]/18 px-3.5 py-0.5 rounded-full shadow-xs">
                           {billingCycle === 'mensal'
-                            ? 'No plano Mensal você garante 40% OFF no 1º mês'
-                            : 'No plano Anual você garante 25% OFF nos 6 primeiros meses'}
+                            ? 'No plano Mensal você garante 1 Mês Grátis + 60% OFF nos 2 meses seguintes'
+                            : 'No plano Anual você garante 1 Mês Grátis + 25% OFF nos 6 meses seguintes'}
                         </p>
                       </div>
                     </div>
@@ -900,29 +888,30 @@ export const InteractiveDemoModal = ({
 
                               {/* Price Display */}
                               <div className="relative z-10">
-                                <div className="flex items-baseline space-x-1 mt-1">
-                                  <span className={`text-xs font-bold opacity-90 ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>R$</span>
-                                  <span className={`text-2xl font-extrabold tracking-tight ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>
-                                    {planDiscountedPrice}
-                                  </span>
-                                  {plan.priceNum > 0 && (
-                                    <span className={`text-[10.5px] opacity-60 line-through ml-1 font-medium ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>
-                                      R${plan.price}
-                                    </span>
-                                  )}
-                                </div>
-
-                                {/* Small Post-Discount Subtext Explanation */}
                                 {plan.priceNum > 0 ? (
-                                  <p className={`text-[9px] font-sans font-medium opacity-85 mt-0.5 leading-tight ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>
-                                    {billingCycle === 'mensal'
-                                      ? `no 1º mês, após R$ ${plan.price}/mês`
-                                      : `nos 6 primeiros meses, após R$ ${plan.price}/mês`}
-                                  </p>
+                                  <>
+                                    <div className="flex items-baseline space-x-1 mt-1">
+                                      <span className={`text-2xl font-extrabold tracking-tight ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>
+                                        {billingCycle === 'mensal' ? '60% OFF' : '25% OFF'}
+                                      </span>
+                                    </div>
+                                    <p className={`text-[9px] font-sans font-medium opacity-85 mt-0.5 leading-tight ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>
+                                      {billingCycle === 'mensal'
+                                        ? '1º Mês Grátis + 60% OFF nos 2 meses seguintes'
+                                        : '1º Mês Grátis + 25% OFF nos 6 meses seguintes'}
+                                    </p>
+                                  </>
                                 ) : (
-                                  <p className="text-[9px] font-sans font-medium opacity-75 mt-0.5 leading-tight">
-                                    Grátis para sempre
-                                  </p>
+                                  <>
+                                    <div className="flex items-baseline space-x-1 mt-1">
+                                      <span className={`text-2xl font-extrabold tracking-tight ${plan.id === 'ile' ? 'text-[#361907]' : ''}`}>
+                                        GRÁTIS
+                                      </span>
+                                    </div>
+                                    <p className="text-[9px] font-sans font-medium opacity-75 mt-0.5 leading-tight">
+                                      para sempre
+                                    </p>
+                                  </>
                                 )}
                               </div>
 
@@ -1014,7 +1003,7 @@ export const InteractiveDemoModal = ({
 
                         <div className="flex items-center justify-center space-x-1 mt-1">
                           <span className="font-serif text-5xl font-bold tracking-tight text-white drop-shadow-md">
-                            {billingCycle === 'mensal' ? '40%' : '25%'}
+                            {billingCycle === 'mensal' ? '60%' : '25%'}
                           </span>
                           <div className="flex flex-col text-left pl-0.5">
                             <span className="font-sans text-xs font-black text-[#F3E5AB] leading-none tracking-wider">OFF</span>
@@ -1031,8 +1020,8 @@ export const InteractiveDemoModal = ({
                         </div>
                         <p className="text-[8.5px] font-sans text-white/80 mt-1 font-light">
                           {billingCycle === 'mensal'
-                            ? 'Aplicado automaticamente no 1º mês'
-                            : 'Aplicado automaticamente nos 6 primeiros meses'}
+                            ? '1 Mês Grátis + 60% OFF nos 2 meses seguintes aplicados'
+                            : '1 Mês Grátis + 25% OFF nos 6 meses seguintes aplicados'}
                         </p>
                       </div>
                     </motion.div>
@@ -1118,7 +1107,7 @@ export const InteractiveDemoModal = ({
                         {/* Classic 1-5 Star Rating Selector */}
                         <div>
                           <label className="block text-[10.5px] font-semibold text-[#262626]/85 mb-1">
-                            O que achou da ideia e dos preços? *
+                            O que achou da ideia e da proposta? *
                           </label>
                           <div className="flex items-center space-x-1.5 py-0.5">
                             {[1, 2, 3, 4, 5].map((star) => {
@@ -1165,7 +1154,7 @@ export const InteractiveDemoModal = ({
                             maxLength={500}
                             value={feedbackText}
                             onChange={(e) => setFeedbackText(e.target.value)}
-                            placeholder="Conte pra gente sem cadastro: o que achou dos valores, da proposta ou quais recursos você gostaria de ter no ilê?"
+                            placeholder="Conte pra gente sem cadastro: o que achou da proposta ou quais recursos você gostaria de ter no ilê?"
                             className="w-full p-2.5 rounded-xl bg-[#F5F3F3] border border-black/8 text-[#262626] text-xs font-sans placeholder-[#262626]/40 shadow-[inner_0_1.5px_3px_rgba(0,0,0,0.04)] focus:bg-white focus:outline-none focus:border-[#761D19] focus:ring-2 focus:ring-[#761D19]/15 transition-all resize-none"
                           />
                         </div>

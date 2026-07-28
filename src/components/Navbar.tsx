@@ -42,6 +42,16 @@ export const Navbar = ({ onOpenDemo }: NavbarProps) => {
 
   return (
     <>
+      {/* Top Announcement Banner */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#B81D18] via-[#990000] to-[#761D19] text-[#F7F1E6] text-center py-2 px-4 text-[9px] sm:text-[10px] md:text-xs font-sans font-semibold tracking-wider shadow-sm uppercase select-none flex items-center justify-center space-x-2">
+        <img
+          src="/img/logo.webp"
+          alt="ilê logo"
+          className="h-3 sm:h-3.5 w-auto object-contain filter brightness-0 invert pointer-events-none select-none"
+        />
+        <span>LOTE FUNDADOR: 1º Mês Grátis + 60% OFF nos 2 meses seguintes • Migração Gratuita &amp; Suporte via WhatsApp</span>
+      </div>
+
       {/* Header Container: Pure transparent, mix-blend-difference text & logo */}
       <motion.header
         initial={{ y: 0, opacity: 1 }}
@@ -50,7 +60,7 @@ export const Navbar = ({ onOpenDemo }: NavbarProps) => {
           opacity: isVisible ? 1 : 0,
         }}
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 py-6 md:py-8 bg-transparent mix-blend-difference pointer-events-none"
+        className="fixed top-8 left-0 right-0 z-50 py-6 md:py-8 bg-transparent mix-blend-difference pointer-events-none"
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-16 flex items-center justify-between pointer-events-auto">
           
@@ -87,14 +97,16 @@ export const Navbar = ({ onOpenDemo }: NavbarProps) => {
             />
           </a>
 
-          {/* Right: Clean & Refined Glass Pill Button */}
+          {/* Right: Clean & Refined Glass Pill Button with spinning glow */}
           <button
             onClick={onOpenDemo}
-            className="group inline-flex items-center space-x-1.5 sm:space-x-2 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs font-sans font-medium tracking-wide text-white border border-white/60 hover:border-white transition-all duration-300 cursor-pointer"
+            className="border-glow-container rounded-full group cursor-pointer"
           >
-            <span className="hidden sm:inline">Acesso Antecipado</span>
-            <span className="inline sm:hidden">Garantir</span>
-            <ArrowRight className="w-3 h-3.5 sm:w-3.5 sm:h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            <div className="border-glow-inner rounded-full px-3.5 sm:px-5 py-1.5 sm:py-2 text-xs font-sans font-medium tracking-wide text-white transition-all duration-300">
+              <span className="hidden sm:inline">Acesso Antecipado</span>
+              <span className="inline sm:hidden">Garantir</span>
+              <ArrowRight className="w-3 h-3.5 sm:w-3.5 sm:h-3.5 group-hover:translate-x-0.5 inline-block ml-1.5 transition-transform" />
+            </div>
           </button>
         </div>
       </motion.header>
@@ -174,6 +186,9 @@ export const Navbar = ({ onOpenDemo }: NavbarProps) => {
                 className="block font-serif text-3xl md:text-5xl text-[#990000] hover:text-white transition-colors pt-3 cursor-pointer text-left"
               >
                 07. <span className="font-serif italic font-normal">Garantir Acesso Antecipado ➔</span>
+                <span className="block text-[11px] font-sans text-[#F7F1E6]/50 mt-1.5 font-bold tracking-widest uppercase">
+                  📦 Migração Gratuita &amp; Suporte Humano Incluso
+                </span>
               </button>
             </div>
 
